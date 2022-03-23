@@ -2,14 +2,14 @@ package cn.xchub.web.books.service;
 
 import cn.xchub.web.books.entity.BookVo;
 import cn.xchub.web.books.entity.Books;
-import cn.xchub.web.books.entity.BooksParm;
+import cn.xchub.web.books.entity.BooksParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 public interface BooksService extends IService<Books> {
-    IPage<Books> getList(BooksParm parm);
+    IPage<Books> getList(BooksParam param);
 
     // 减库存（借书）
     int subBook(Long bookId);

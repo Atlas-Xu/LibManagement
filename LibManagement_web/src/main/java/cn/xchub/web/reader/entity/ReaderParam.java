@@ -3,7 +3,7 @@ package cn.xchub.web.reader.entity;
 import lombok.Data;
 
 @Data
-public class ReaderParm {
+public class ReaderParam {
     private Long currentPage;
     private Long pageSize;
     private String username;

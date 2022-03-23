@@ -1,6 +1,6 @@
 package cn.xchub.web.user.service.impl;
 
-import cn.xchub.web.user.entity.PageParm;
+import cn.xchub.web.user.entity.PageParam;
 import cn.xchub.web.user.entity.User;
 import cn.xchub.web.user.mapper.UserMapper;
 import cn.xchub.web.user.service.UserService;
@@ -21,18 +21,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserRoleService userRoleService;
 
     @Override
-    public IPage<User> list(PageParm parm){
+    public IPage<User> list(PageParam param){
         //分页
         IPage<User> page = new Page<>();
-        page.setSize(parm.getPageSize());
-        page.setCurrent(parm.getCurrentPage());
+        page.setSize(param.getPageSize());
+        page.setCurrent(param.getCurrentPage());
         //查询条件
         QueryWrapper<User> query = new QueryWrapper<>();
-        if(StringUtils.isNotEmpty(parm.getNickName())){
-            query.lambda().like(User::getNickName,parm.getNickName());
+        if(StringUtils.isNotEmpty(param.getNickName())){
+            query.lambda().like(User::getNickName,param.getNickName());
         }
-        if(StringUtils.isNotEmpty(parm.getPhone())){
-            query.lambda().like(User::getPhone,parm.getPhone());
+        if(StringUtils.isNotEmpty(param.getPhone())){
+            query.lambda().like(User::getPhone,param.getPhone());
         }
         return this.baseMapper.selectPage(page,query);
     }

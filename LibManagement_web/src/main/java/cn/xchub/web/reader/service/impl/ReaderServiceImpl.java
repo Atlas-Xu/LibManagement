@@ -1,7 +1,7 @@
 package cn.xchub.web.reader.service.impl;
 
 import cn.xchub.exception.BusinessException;
-import cn.xchub.web.reader.entity.ReaderParm;
+import cn.xchub.web.reader.entity.ReaderParam;
 import cn.xchub.web.reader.entity.Reader;
 import cn.xchub.web.reader.mapper.ReaderMapper;
 import cn.xchub.web.reader.service.ReaderService;
@@ -9,7 +9,6 @@ import cn.xchub.web.reader_role.entity.ReaderRole;
 import cn.xchub.web.reader_role.service.ReaderRoleService;
 import cn.xchub.web.role.entity.Role;
 import cn.xchub.web.role.service.RoleService;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,26 +27,26 @@ public class ReaderServiceImpl extends ServiceImpl<ReaderMapper, Reader> impleme
     private ReaderRoleService readerRoleService;
 
     @Override
-    public IPage<Reader> getList(ReaderParm parm) {
+    public IPage<Reader> getList(ReaderParam param) {
         // 构造查询条件(拼接like查询)
         QueryWrapper<Reader> query = new QueryWrapper<>();
-        if (StringUtils.isNotEmpty(parm.getIdCard())){
-            query.lambda().like(Reader::getIdCard,parm.getIdCard());
+        if (StringUtils.isNotEmpty(param.getIdCard())){
+            query.lambda().like(Reader::getIdCard,param.getIdCard());
         }
-        if (StringUtils.isNotEmpty(parm.getLearnNum())){
-            query.lambda().like(Reader::getLearnNum,parm.getLearnNum());
+        if (StringUtils.isNotEmpty(param.getLearnNum())){
+            query.lambda().like(Reader::getLearnNum,param.getLearnNum());
         }
-        if (StringUtils.isNotEmpty(parm.getPhone())){
-            query.lambda().like(Reader::getPhone,parm.getPhone());
+        if (StringUtils.isNotEmpty(param.getPhone())){
+            query.lambda().like(Reader::getPhone,param.getPhone());
         }
-        if (StringUtils.isNotEmpty(parm.getUsername())){
-            query.lambda().like(Reader::getUsername,parm.getUsername());
+        if (StringUtils.isNotEmpty(param.getUsername())){
+            query.lambda().like(Reader::getUsername,param.getUsername());
         }
 
         //构造分页对象
         IPage<Reader> page = new Page<>();
-        page.setCurrent(parm.getCurrentPage());
-        page.setSize(parm.getPageSize());
+        page.setCurrent(param.getCurrentPage());
+        page.setSize(param.getPageSize());
         return this.baseMapper.selectPage(page, query);
     }
 

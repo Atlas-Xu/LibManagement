@@ -25,7 +25,7 @@ public class Menu {
     private String type; //类型(0 目录 1菜单，2按钮)
     private String icon;
     private String parentName;
-    private Long orderNum;
+    private Long orderNum;// 查菜单那个接口，通过这个进行排序
     private Date createTime;
     private Date updateTime;
 

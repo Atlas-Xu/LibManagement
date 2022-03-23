@@ -3,7 +3,7 @@ package cn.xchub.web.borrow.entity;
 import lombok.Data;
 
 @Data
-public class LookParm {
+public class LookParam {
     private Long userId; // 权限处理用
     //当前页
     private Long currentPage;

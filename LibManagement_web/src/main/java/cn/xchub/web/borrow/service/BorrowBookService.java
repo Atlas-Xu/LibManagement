@@ -3,21 +3,22 @@ package cn.xchub.web.borrow.service;
 import cn.xchub.web.borrow.entity.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface BorrowBookService extends IService<BorrowBook> {
     // 借书
-    void borrow(BorrowParm parm,String userType);
+    void borrow(BorrowParam param, String userType);
     // 还书列表
-    IPage<ReturnBook> getBorrowList(ListParm parm);
+    IPage<ReturnBook> getBorrowList(ListParam param);
     // 还书
-    void returnBook(List<ReturnParm> list);
+    void returnBook(List<ReturnParam> list);
     // 异常还书
-    void exceptionBook(ExceptionParm parm);
+    void exceptionBook(ExceptionParam param);
     // 借阅查看列表
-    IPage<LookBorrow> getLookBorrowList(LookParm parm);
+    IPage<LookBorrow> getLookBorrowList(LookParam param);
     // 读者借阅查看列表
-    IPage<LookBorrow> getReaderLookBorrowList(LookParm parm);
+    IPage<LookBorrow> getReaderLookBorrowList(LookParam param);
+    // 借阅机借书
+    void borrowFromMachine(BorrowParam param);
 }

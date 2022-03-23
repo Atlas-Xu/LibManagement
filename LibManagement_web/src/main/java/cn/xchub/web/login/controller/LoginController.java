@@ -4,7 +4,7 @@ import cn.xchub.annotation.Auth;
 import cn.xchub.jwt.JwtUtils;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
-import cn.xchub.web.login.entity.LoginParm;
+import cn.xchub.web.login.entity.LoginParam;
 import cn.xchub.web.login.entity.LoginResult;
 import cn.xchub.web.login.entity.UserInfo;
 import cn.xchub.web.menu.entity.MakeTree;
@@ -40,35 +40,35 @@ public class LoginController {
 
     // 用户登录
     @PostMapping("/login")
-    public ResultVo login(@RequestBody LoginParm loginParm) {
-        if (StringUtils.isEmpty(loginParm.getUsername()) || StringUtils.isEmpty(loginParm.getPassword()) || StringUtils.isEmpty(loginParm.getUserType())) {
+    public ResultVo login(@RequestBody LoginParam loginParam) {
+        if (StringUtils.isEmpty(loginParam.getUsername()) || StringUtils.isEmpty(loginParam.getPassword()) || StringUtils.isEmpty(loginParam.getUserType())) {
             return ResultUtils.error("用户名、密码、用户类型不能为空!");
         }
         // 判断是读者还是管理员
-        if (loginParm.getUserType().equals("0")) { //0 读者
+        if (loginParam.getUserType().equals("0")) { //0 读者
             // 根据读者的用户名密码查询
             QueryWrapper<Reader> query = new QueryWrapper<>();
-            query.lambda().eq(Reader::getUsername, loginParm.getUsername()).eq(Reader::getPassword, DigestUtils.md5DigestAsHex(loginParm.getPassword().getBytes()));
+            query.lambda().eq(Reader::getUsername, loginParam.getUsername()).eq(Reader::getPassword, DigestUtils.md5DigestAsHex(loginParam.getPassword().getBytes()));
             Reader one = readerService.getOne(query);
             if (one == null) {
                 return ResultUtils.error("用户名或密码错误");
             }
             // 返回数据给前端
             LoginResult loginResult = new LoginResult();
-            loginResult.setToken(jwtUtils.generateToken(one.getUsername(), loginParm.getUserType()));
+            loginResult.setToken(jwtUtils.generateToken(one.getUsername(), loginParam.getUserType()));
             loginResult.setUserId(one.getReaderId());
             return ResultUtils.success("登录成功", loginResult);
-        } else if (loginParm.getUserType().equals("1")) { // 1 管理员
+        } else if (loginParam.getUserType().equals("1")) { // 1 管理员
             // 根据用户的用户名密码查询
             QueryWrapper<User> query = new QueryWrapper<>();
-            query.lambda().eq(User::getUsername, loginParm.getUsername()).eq(User::getPassword, DigestUtils.md5DigestAsHex(loginParm.getPassword().getBytes()));
+            query.lambda().eq(User::getUsername, loginParam.getUsername()).eq(User::getPassword, DigestUtils.md5DigestAsHex(loginParam.getPassword().getBytes()));
             User one = userService.getOne(query);
             if (one == null) {
                 return ResultUtils.error("用户名或密码错误");
             }
             // 返回数据给前端
             LoginResult loginResult = new LoginResult();
-            loginResult.setToken(jwtUtils.generateToken(one.getUsername(), loginParm.getUserType()));
+            loginResult.setToken(jwtUtils.generateToken(one.getUsername(), loginParam.getUserType()));
             loginResult.setUserId(one.getUserId());
             return ResultUtils.success("登录成功", loginResult);
         } else {
@@ -168,5 +168,12 @@ public class LoginController {
         }else {
             return ResultUtils.error("用户类型不存在");
         }
+    }
+
+    // TODO: 用户人脸登录
+    @PostMapping("/faceLogin")
+    public ResultVo faceLogin(){
+
+        return ResultUtils.success("登录成功");
     }
 }

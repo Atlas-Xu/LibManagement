@@ -2,13 +2,11 @@ package cn.xchub.web.category.service;
 
 import cn.xchub.web.category.entity.Category;
 import cn.xchub.web.category.entity.CategoryEcharts;
-import cn.xchub.web.category.entity.CategoryParm;
+import cn.xchub.web.category.entity.CategoryParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.List;
-
 public interface CategoryService extends IService<Category> {
-    IPage<Category> getList(CategoryParm parm);
+    IPage<Category> getList(CategoryParam param);
     CategoryEcharts getCategoryVo();
 }

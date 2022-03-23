@@ -5,11 +5,11 @@
     <select id="getBorrowList" resultType="cn.xchub.web.borrow.entity.ReturnBook">
         select b.borrow_id,b.book_id,b2.book_name,b2.book_place_num,r.username,r.learn_num,r.class_name,r.phone,b.borrow_time,b.borrow_status
         from borrow_book as b left join books as b2 on b.book_id = b2.book_id left join reader as r on b.reader_id = r.reader_id where 1 = 1
-        <if test="parm.username != null and parm.username != ''">
-            and r.username =#{parm.username}
+        <if test="param.username != null and param.username != ''">
+            and r.username =#{param.username}
         </if>
-        <if test="parm.borrowStatus != null and parm.borrowStatus != ''">
-            and b.borrow_status =#{parm.borrowStatus}
+        <if test="param.borrowStatus != null and param.borrowStatus != ''">
+            and b.borrow_status =#{param.borrowStatus}
         </if>
         order by b.borrow_time asc
     </select>
@@ -20,59 +20,59 @@
         case when b.return_time &lt; now() then '1' else '0' end as time_status
         from borrow_book as b left join books as b2 on b.book_id = b2.book_id left join reader as r on b.reader_id = r.reader_id)t
         where 1 = 1
-        <if test="parm.username != null and parm.username != ''">
-            and t.username =#{parm.username}
+        <if test="param.username != null and param.username != ''">
+            and t.username =#{param.username}
         </if>
-        <if test="parm.borrowStatus != null and parm.borrowStatus != ''">
-            and t.borrow_status =#{parm.borrowStatus}
+        <if test="param.borrowStatus != null and param.borrowStatus != ''">
+            and t.borrow_status =#{param.borrowStatus}
         </if>
-        <if test="parm.learnNum != null and parm.learnNum !=''">
-            and t.learn_num  like CONCAT('%',#{parm.learnNum},'%')
+        <if test="param.learnNum != null and param.learnNum !=''">
+            and t.learn_num  like CONCAT('%',#{param.learnNum},'%')
         </if>
-        <if test="parm.bookName != null and parm.bookName !=''">
-            and t.book_name  like CONCAT('%',#{parm.bookName},'%')
+        <if test="param.bookName != null and param.bookName !=''">
+            and t.book_name  like CONCAT('%',#{param.bookName},'%')
         </if>
-        <if test="parm.applyStatus != null and parm.applyStatus !=''">
-            and t.apply_status =#{parm.applyStatus}
+        <if test="param.applyStatus != null and param.applyStatus !=''">
+            and t.apply_status =#{param.applyStatus}
         </if>
-        <if test="parm.returnStatus != null and parm.returnStatus !=''">
-            and t.return_status =#{parm.returnStatus}
+        <if test="param.returnStatus != null and param.returnStatus !=''">
+            and t.return_status =#{param.returnStatus}
         </if>
-        <if test="parm.timeStatus != null and parm.timeStatus !=''">
-            and t.time_status =#{parm.timeStatus}
+        <if test="param.timeStatus != null and param.timeStatus !=''">
+            and t.time_status =#{param.timeStatus}
         </if>
         order by t.borrow_time desc
     </select>
     <select id="getReaderLookBorrowList" resultType="cn.xchub.web.borrow.entity.LookBorrow">
         select t.* from (
-        select b.borrow_id,b.book_id,b2.book_name,b2.book_place_num,r.username,r.learn_num,r.class_name,r.phone,b.borrow_time,
+        select b.reader_id,b.borrow_id,b.book_id,b2.book_name,b2.book_place_num,r.username,r.learn_num,r.class_name,r.phone,b.borrow_time,
         b.borrow_status,b.apply_status,b.return_status,b.excepion_text,b.apply_text,
         case when b.return_time &lt; now() then '1' else '0' end as time_status
         from borrow_book as b left join books as b2 on b.book_id = b2.book_id left join reader as r on b.reader_id = r.reader_id)t
         where 1 = 1
-        <if test="parm.userId != null and parm.userId != ''">
-            and t.username =#{parm.userId}
+        <if test="param.userId != null and param.userId != ''">
+            and t.username =#{param.userId}
         </if>
-        <if test="parm.username != null and parm.username != ''">
-            and t.username =#{parm.username}
+        <if test="param.username != null and param.username != ''">
+            and t.username =#{param.username}
         </if>
-        <if test="parm.borrowStatus != null and parm.borrowStatus != ''">
-            and t.borrow_status =#{parm.borrowStatus}
+        <if test="param.borrowStatus != null and param.borrowStatus != ''">
+            and t.borrow_status =#{param.borrowStatus}
         </if>
-        <if test="parm.learnNum != null and parm.learnNum !=''">
-            and t.learn_num  like CONCAT('%',#{parm.learnNum},'%')
+        <if test="param.learnNum != null and param.learnNum !=''">
+            and t.learn_num  like CONCAT('%',#{param.learnNum},'%')
         </if>
-        <if test="parm.bookName != null and parm.bookName !=''">
-            and t.book_name  like CONCAT('%',#{parm.bookName},'%')
+        <if test="param.bookName != null and param.bookName !=''">
+            and t.book_name  like CONCAT('%',#{param.bookName},'%')
         </if>
-        <if test="parm.applyStatus != null and parm.applyStatus !=''">
-            and t.apply_status =#{parm.applyStatus}
+        <if test="param.applyStatus != null and param.applyStatus !=''">
+            and t.apply_status =#{param.applyStatus}
         </if>
-        <if test="parm.returnStatus != null and parm.returnStatus !=''">
-            and t.return_status =#{parm.returnStatus}
+        <if test="param.returnStatus != null and param.returnStatus !=''">
+            and t.return_status =#{param.returnStatus}
         </if>
-        <if test="parm.timeStatus != null and parm.timeStatus !=''">
-            and t.time_status =#{parm.timeStatus}
+        <if test="param.timeStatus != null and param.timeStatus !=''">
+            and t.time_status =#{param.timeStatus}
         </if>
         order by t.borrow_time desc
     </select>

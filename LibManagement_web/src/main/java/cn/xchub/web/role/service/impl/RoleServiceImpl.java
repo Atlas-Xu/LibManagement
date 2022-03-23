@@ -3,10 +3,10 @@ package cn.xchub.web.role.service.impl;
 import cn.xchub.web.menu.entity.MakeTree;
 import cn.xchub.web.menu.entity.Menu;
 import cn.xchub.web.menu.service.MenuService;
-import cn.xchub.web.role.entity.AssignParm;
+import cn.xchub.web.role.entity.AssignParam;
 import cn.xchub.web.role.entity.AssignVo;
 import cn.xchub.web.role.entity.Role;
-import cn.xchub.web.role.entity.RoleParm;
+import cn.xchub.web.role.entity.RoleParam;
 import cn.xchub.web.role.mapper.RoleMapper;
 import cn.xchub.web.role.service.RoleService;
 import cn.xchub.web.user.entity.User;
@@ -16,8 +16,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.Mergeable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,23 +33,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private MenuService menuService;
 
     @Override
-    public IPage<Role> list(RoleParm parm) {
+    public IPage<Role> list(RoleParam param) {
         //构造分页对象
         IPage<Role> page = new Page<>();
-        page.setSize(parm.getPageSize());
-        page.setCurrent(parm.getCurrentPage());
+        page.setSize(param.getPageSize());
+        page.setCurrent(param.getCurrentPage());
         //查询条件
         QueryWrapper<Role> query = new QueryWrapper<>();
-        if(StringUtils.isNotEmpty(parm.getRoleName())){
-            query.lambda().like(Role::getRoleName,parm.getRoleName());
+        if(StringUtils.isNotEmpty(param.getRoleName())){
+            query.lambda().like(Role::getRoleName,param.getRoleName());
         }
         return this.baseMapper.selectPage(page,query);
     }
 
     @Override
-    public AssignVo getAssignShow(AssignParm parm) {
+    public AssignVo getAssignShow(AssignParam param) {
         // 查询当前用户信息
-        User user = userService.getById(parm.getUserId());
+        User user = userService.getById(param.getUserId());
         // 菜单数据
         List<Menu> list = null;
         if (user.getIsAdmin().equals("1")){ // 超管
@@ -64,7 +62,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         // 组装树
         List<Menu> menuList = MakeTree.makeMenuTree(list, 0L);
         // 查询角色原来的菜单
-        List<Menu> roleList = menuService.getMenuByRoleId(parm.getRoleId());
+        List<Menu> roleList = menuService.getMenuByRoleId(param.getRoleId());
         List<Long> ids = new ArrayList<>();
         Optional.ofNullable(roleList).orElse(new ArrayList<>()).stream().filter(item -> item!=null).forEach(item ->{
             ids.add(item.getMenuId());

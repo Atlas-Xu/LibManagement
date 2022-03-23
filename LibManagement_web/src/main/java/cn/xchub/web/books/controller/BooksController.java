@@ -5,13 +5,12 @@ import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
 import cn.xchub.web.books.entity.BookVo;
 import cn.xchub.web.books.entity.Books;
-import cn.xchub.web.books.entity.BooksParm;
+import cn.xchub.web.books.entity.BooksParam;
 import cn.xchub.web.books.service.BooksService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -56,8 +55,8 @@ public class BooksController {
     //图书列表
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(BooksParm parm){
-        IPage<Books> list = booksService.getList(parm);
+    public ResultVo getList(BooksParam param){
+        IPage<Books> list = booksService.getList(param);
         return ResultUtils.success("查询成功",list);
     }
 

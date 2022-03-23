@@ -3,7 +3,7 @@ package cn.xchub.web.borrow.entity;
 import lombok.Data;
 
 @Data
-public class ListParm {
+public class ListParam {
     private Long currentPage;
     private Long pageSize;
     private String username;

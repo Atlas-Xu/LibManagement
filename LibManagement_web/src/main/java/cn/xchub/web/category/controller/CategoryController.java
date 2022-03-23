@@ -5,13 +5,12 @@ import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
 import cn.xchub.web.category.entity.Category;
 import cn.xchub.web.category.entity.CategoryEcharts;
-import cn.xchub.web.category.entity.CategoryParm;
+import cn.xchub.web.category.entity.CategoryParam;
 import cn.xchub.web.category.service.CategoryService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -56,8 +55,8 @@ public class CategoryController {
     // 列表
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(CategoryParm parm){
-        IPage<Category> list = categoryService.getList(parm);
+    public ResultVo getList(CategoryParam param){
+        IPage<Category> list = categoryService.getList(param);
         return ResultUtils.success("查询成功！",list);
     }
 
@@ -69,7 +68,7 @@ public class CategoryController {
         return ResultUtils.success("查询成功", list);
     }
 
-    //图书列表分类
+    //图书分类数量
     @Auth
     @GetMapping("/categoryCount")
     public ResultVo categoryCount(){

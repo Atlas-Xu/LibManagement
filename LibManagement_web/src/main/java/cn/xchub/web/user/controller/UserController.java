@@ -8,21 +8,19 @@ import cn.xchub.web.reader.entity.Reader;
 import cn.xchub.web.reader.service.ReaderService;
 import cn.xchub.web.role.entity.Role;
 import cn.xchub.web.role.service.RoleService;
-import cn.xchub.web.user.entity.PageParm;
-import cn.xchub.web.user.entity.UpdatePasswordParm;
+import cn.xchub.web.user.entity.PageParam;
+import cn.xchub.web.user.entity.UpdatePasswordParam;
 import cn.xchub.web.user.entity.User;
 import cn.xchub.web.user.service.UserService;
 import cn.xchub.web.user_role.entity.UserRole;
 import cn.xchub.web.user_role.service.UserRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -100,8 +98,8 @@ public class UserController {
     //列表查询
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(PageParm parm) {
-        IPage<User> list = userService.list(parm);
+    public ResultVo getList(PageParam param) {
+        IPage<User> list = userService.list(param);
         //密码处理
         list.getRecords().stream().forEach(item -> {
             item.setPassword("");
@@ -129,34 +127,34 @@ public class UserController {
 
     @Auth
     @PostMapping("/updatePassword")
-    public ResultVo updatePassword(@RequestBody UpdatePasswordParm parm, HttpServletRequest request){
+    public ResultVo updatePassword(@RequestBody UpdatePasswordParam param, HttpServletRequest request){
         // 获取token
         String token = request.getHeader("token");
         Claims claims = jwtUtils.getClaimsFromToken(token);
         Object userType = claims.get("userType");
         // 原密码
-        String old = DigestUtils.md5DigestAsHex(parm.getOldPassword().getBytes());
+        String old = DigestUtils.md5DigestAsHex(param.getOldPassword().getBytes());
         if (userType.equals("0")){ // 读者
-            Reader reader = readerService.getById(parm.getUserId());
+            Reader reader = readerService.getById(param.getUserId());
             // 密码对比
             if (!old.equals(reader.getPassword())){
                 return ResultUtils.error("原密码错误");
             }
             Reader reader1 = new Reader();
-            reader1.setPassword(DigestUtils.md5DigestAsHex(parm.getPassword().getBytes()));
-            reader1.setReaderId(parm.getUserId());
+            reader1.setPassword(DigestUtils.md5DigestAsHex(param.getPassword().getBytes()));
+            reader1.setReaderId(param.getUserId());
             boolean b = readerService.updateById(reader1);
             if (b){
                 return ResultUtils.success("修改密码成功");
             }
         }else if (userType.equals("1")){ // 管理员
-            User user = userService.getById(parm.getUserId());
+            User user = userService.getById(param.getUserId());
             if (!user.getPassword().equals(old)){
                 return ResultUtils.error("原密码错误");
             }
             User user1 = new User();
-            user1.setPassword(DigestUtils.md5DigestAsHex(parm.getPassword().getBytes()));
-            user1.setUserId(parm.getUserId());
+            user1.setPassword(DigestUtils.md5DigestAsHex(param.getPassword().getBytes()));
+            user1.setUserId(param.getUserId());
             boolean b = userService.updateById(user1);
             if (b){
                 return ResultUtils.success("修改密码成功");

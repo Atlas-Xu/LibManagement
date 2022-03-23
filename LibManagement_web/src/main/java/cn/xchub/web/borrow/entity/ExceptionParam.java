@@ -3,7 +3,7 @@ package cn.xchub.web.borrow.entity;
 import lombok.Data;
 
 @Data
-public class ExceptionParm {
+public class ExceptionParam {
     private Long borrowId;
     private Long bookId;
 

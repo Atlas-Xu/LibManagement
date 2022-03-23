@@ -4,7 +4,7 @@ import cn.xchub.annotation.Auth;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
 import cn.xchub.web.notice.entity.Notice;
-import cn.xchub.web.notice.entity.NoticeParm;
+import cn.xchub.web.notice.entity.NoticeParam;
 import cn.xchub.web.notice.service.NoticeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -55,8 +55,8 @@ public class NoticeController {
     // 列表
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(NoticeParm parm){
-        IPage<Notice> list = noticeService.getList(parm);
+    public ResultVo getList(NoticeParam param){
+        IPage<Notice> list = noticeService.getList(param);
         return ResultUtils.success("查询成功", list);
     }
 

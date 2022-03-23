@@ -4,15 +4,13 @@ import cn.xchub.annotation.Auth;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
 import cn.xchub.web.reader.entity.Reader;
-import cn.xchub.web.reader.entity.ReaderParm;
+import cn.xchub.web.reader.entity.ReaderParam;
 import cn.xchub.web.reader.service.ReaderService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/api/reader")
@@ -62,8 +60,8 @@ public class ReaderController {
     // 列表
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(ReaderParm parm){
-        IPage<Reader> list = readerService.getList(parm);
+    public ResultVo getList(ReaderParam param){
+        IPage<Reader> list = readerService.getList(param);
         return ResultUtils.success("查询成功",list);
     }
 

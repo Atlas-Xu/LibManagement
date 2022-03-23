@@ -4,17 +4,17 @@
 <mapper namespace="cn.xchub.web.books.mapper.BooksMapper">
     <select id="getList" resultType="cn.xchub.web.books.entity.Books">
         select b.*,c.category_name from books as b , category as c where b.category_id = c.category_id
-        <if test="parm.categoryId != null and parm.categoryId !=''">
-            and c.category_id =#{parm.categoryId}
+        <if test="param.categoryId != null and param.categoryId !=''">
+            and c.category_id =#{param.categoryId}
         </if>
-        <if test="parm.bookName != null and parm.bookName !=''">
-            and b.book_name like CONCAT('%',#{parm.bookName},'%')
+        <if test="param.bookName != null and param.bookName !=''">
+            and b.book_name like CONCAT('%',#{param.bookName},'%')
         </if>
-        <if test="parm.bookPlaceNum != null and parm.bookPlaceNum !=''">
-            and b.book_place_num like CONCAT('%',#{parm.bookPlaceNum},'%')
+        <if test="param.bookPlaceNum != null and param.bookPlaceNum !=''">
+            and b.book_place_num like CONCAT('%',#{param.bookPlaceNum},'%')
         </if>
-        <if test="parm.bookAuther != null and parm.bookAuther !=''">
-            and b.book_auther like CONCAT('%',#{parm.bookAuther},'%')
+        <if test="param.bookAuthor != null and param.bookAuthor !=''">
+            and b.book_auther like CONCAT('%',#{param.bookAuther},'%')
         </if>
     </select>
     <update id="subBook">

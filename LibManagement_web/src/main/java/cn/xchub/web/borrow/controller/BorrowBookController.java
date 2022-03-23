@@ -13,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -29,45 +28,45 @@ public class BorrowBookController {
 
     @Auth
     @PostMapping("")
-    public ResultVo borrow(@RequestBody BorrowParm parm, HttpServletRequest request) {
+    public ResultVo borrow(@RequestBody BorrowParam param, HttpServletRequest request) {
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)){
             return ResultUtils.error("token过期！",600);
         }
         Claims claims = jwtUtils.getClaimsFromToken(token);
         String userType = (String) claims.get("userType");
-        borrowBookService.borrow(parm,userType);
+        borrowBookService.borrow(param,userType);
         return ResultUtils.success("借书成功！");
     }
 
     // 还书列表
     @Auth
     @GetMapping("/getBorrowList")
-    public ResultVo getBorrowList(ListParm parm) {
-        IPage<ReturnBook> borrowList = borrowBookService.getBorrowList(parm);
+    public ResultVo getBorrowList(ListParam param) {
+        IPage<ReturnBook> borrowList = borrowBookService.getBorrowList(param);
         return ResultUtils.success("查询成功！", borrowList);
     }
 
     // 还书
     @Auth
     @PostMapping("/returnBooks")
-    public ResultVo returnBooks(@RequestBody List<ReturnParm> parm) {
-        borrowBookService.returnBook(parm);
+    public ResultVo returnBooks(@RequestBody List<ReturnParam> param) {
+        borrowBookService.returnBook(param);
         return ResultUtils.success("还书成功！");
     }
 
     // 异常还书
     @Auth
     @PostMapping("/exceptionBooks")
-    public ResultVo exceptionBooks(@RequestBody ExceptionParm parm) {
-        borrowBookService.exceptionBook(parm);
+    public ResultVo exceptionBooks(@RequestBody ExceptionParam param) {
+        borrowBookService.exceptionBook(param);
         return ResultUtils.success("还书成功！");
     }
 
     // 借阅查看
     @Auth
     @GetMapping("/getLookBorrowList")
-    public ResultVo getLookBorrowList(LookParm parm, HttpServletRequest request) {
+    public ResultVo getLookBorrowList(LookParam param, HttpServletRequest request) {
         // 获取token
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)){
@@ -77,10 +76,10 @@ public class BorrowBookController {
         String userType = (String) claims.get("userType");
         IPage<LookBorrow> lookBorrowList = null;
         if (userType.equals("0")){ // 读者
-            lookBorrowList = borrowBookService.getReaderLookBorrowList(parm);
+            lookBorrowList = borrowBookService.getReaderLookBorrowList(param);
             return ResultUtils.success("查询成功！", lookBorrowList);
         }else if (userType.equals("1")){ // 管理员
-            lookBorrowList = borrowBookService.getLookBorrowList(parm);
+            lookBorrowList = borrowBookService.getLookBorrowList(param);
             return ResultUtils.success("查询成功！", lookBorrowList);
         }else {
             return ResultUtils.success("查询成功！", lookBorrowList);
@@ -103,10 +102,10 @@ public class BorrowBookController {
     // 借书续期
     @Auth
     @PostMapping("/addTime")
-    public ResultVo addTime(@RequestBody BorrowParm parm){
+    public ResultVo addTime(@RequestBody BorrowParam param){
         BorrowBook borrowBook = new BorrowBook();
-        borrowBook.setBorrowId(parm.getBorrowId());
-        borrowBook.setReturnTime(parm.getReturnTime());
+        borrowBook.setBorrowId(param.getBorrowId());
+        borrowBook.setReturnTime(param.getReturnTime());
         boolean b = borrowBookService.updateById(borrowBook);
         if (b){
             return ResultUtils.success("续借成功！");

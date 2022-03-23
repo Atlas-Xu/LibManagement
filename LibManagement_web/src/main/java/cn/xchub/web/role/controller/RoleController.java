@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 @RestController
@@ -77,24 +76,24 @@ public class RoleController {
     // 列表
     @Auth
     @GetMapping("/list")
-    public ResultVo getList(RoleParm parm) {
-        IPage<Role> list = roleService.list(parm);
+    public ResultVo getList(RoleParam param) {
+        IPage<Role> list = roleService.list(param);
         return ResultUtils.success("查询成功!", list);
     }
 
     // 查询角色权限树的回显
     @Auth
     @GetMapping("/getAssignShow")
-    public ResultVo getAssignShow(AssignParm parm){
-        AssignVo show = roleService.getAssignShow(parm);
+    public ResultVo getAssignShow(AssignParam param){
+        AssignVo show = roleService.getAssignShow(param);
         return ResultUtils.success("查询成功！", show);
     }
 
     // 角色分配权限保存
     @Auth
     @PostMapping("/assignSave")
-    public ResultVo assignSave(@RequestBody SaveAssign parm){
-        roleMenuService.assignSave(parm.getRoleId(),parm.getList());
+    public ResultVo assignSave(@RequestBody SaveAssign param){
+        roleMenuService.assignSave(param.getRoleId(),param.getList());
         return ResultUtils.success("分配成功！");
     }
 

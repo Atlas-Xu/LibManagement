@@ -1,7 +1,11 @@
 #端口号配置
 server:
   port: 8089
-#数据库连接配置
+  max-http-header-size: 2MB
+  tomcat:
+    max-http-form-post-size: 50MB
+
+#数据库和请求的连接配置
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -9,6 +13,12 @@ spring:
     url: jdbc:mariadb://localhost:3306/LibManagement?characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+
 
 #mybatis plus配置
 mybatis-plus:
@@ -28,3 +38,12 @@ jwt:
 logging:
   pattern:
     console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
+
+config:
+  arcface-sdk:
+    sdk-lib-path: D:\\Study\\GraduationProject\\Code\\source\\WIN64
+    app-id: 3Ptm7SNe22MHH7FMKNiboBCE1RQ9hM5kHvz5jGCsX1u5
+    sdk-key: 9x9dScCc5agMrM9niKHKgaBsMjNxrovT3adSHrtvf42M
+    detect-pool-size: 5
+    compare-pool-size: 5
+

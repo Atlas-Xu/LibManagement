@@ -19,7 +19,7 @@ public class Books {
     private String bookName;
     private String bookCode;
     private String bookPlaceNum;
-    private String bookAuther;
+    private String bookAuthor;
     private String bookProduct;
     private BigDecimal bookPrice;
     private Integer bookStore;

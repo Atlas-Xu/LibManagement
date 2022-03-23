@@ -10,7 +10,7 @@ import java.util.List;
  * */
 
 @Data
-public class BorrowParm {
+public class BorrowParam {
     // 根据主键更新
     private Long borrowId;
     //借书人id
