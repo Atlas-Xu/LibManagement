@@ -20,5 +20,7 @@ public interface BorrowBookService extends IService<BorrowBook> {
     // 读者借阅查看列表
     IPage<LookBorrow> getReaderLookBorrowList(LookParam param);
     // 借阅机借书
-    void borrowFromMachine(BorrowParam param);
+    void borrowFromMachine(MachineBorrowParam param);
+    // 借书机还书
+    void returnFromMachine(MachineReturnParam param);
 }

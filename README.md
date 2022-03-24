@@ -8,6 +8,12 @@
 - 持续集成 Jenkins
 - arcsoft face
 
+## 环境
+MariaDB
+虹软人脸识别sdk
+Lombok
+jdk11 Corretto
+
 ---
 ## Code
 

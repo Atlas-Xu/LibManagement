@@ -4,6 +4,7 @@ import cn.xchub.annotation.Auth;
 import cn.xchub.jwt.JwtUtils;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
+import cn.xchub.web.books.entity.BooksParam;
 import cn.xchub.web.borrow.entity.*;
 import cn.xchub.web.borrow.service.BorrowBookService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -150,6 +151,18 @@ public class BorrowBookController {
         }else {
             return ResultUtils.success("查询成功",0);
         }
+    }
 
+
+    @PostMapping("/borrowFromMachine")
+    public ResultVo borrowFromMachine(@RequestBody MachineBorrowParam param){
+        borrowBookService.borrowFromMachine(param);
+        return ResultUtils.success("借阅成功");
+    }
+
+    @PostMapping("/returnFromMachine")
+    public ResultVo returnFromMachine(@RequestBody MachineReturnParam param){
+        borrowBookService.returnFromMachine(param);
+        return ResultUtils.success("还书成功");
     }
 }

@@ -4,6 +4,8 @@ import cn.xchub.annotation.Auth;
 import cn.xchub.jwt.JwtUtils;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
+import cn.xchub.web.face.entity.FaceLoginParam;
+import cn.xchub.web.face.service.FaceService;
 import cn.xchub.web.login.entity.LoginParam;
 import cn.xchub.web.login.entity.LoginResult;
 import cn.xchub.web.login.entity.UserInfo;
@@ -37,6 +39,8 @@ public class LoginController {
     private JwtUtils jwtUtils;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private FaceService faceService;
 
     // 用户登录
     @PostMapping("/login")
@@ -170,10 +174,23 @@ public class LoginController {
         }
     }
 
-    // TODO: 用户人脸登录
+    // 人脸识别登录
     @PostMapping("/faceLogin")
-    public ResultVo faceLogin(){
-
-        return ResultUtils.success("登录成功");
+    public ResultVo faceLogin(@RequestBody FaceLoginParam param){
+        if (StringUtils.isEmpty(param.getBase64Str()))
+        {
+            return ResultUtils.error("未检测到图像");
+        }
+        Long readerId = faceService.compareFace(param);
+        if (readerId == null) {
+            return ResultUtils.error("用户不存在或人脸信息错误");
+        }
+        QueryWrapper<Reader> query = new QueryWrapper<>();
+        query.lambda().eq(Reader::getReaderId,readerId);
+        Reader one = readerService.getOne(query);
+        LoginResult loginResult = new LoginResult();
+        loginResult.setToken(jwtUtils.generateToken(one.getUsername(), "0"));
+        loginResult.setUserId(one.getReaderId());
+        return ResultUtils.success("登录成功", loginResult);
     }
 }

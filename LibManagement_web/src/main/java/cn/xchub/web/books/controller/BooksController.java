@@ -68,5 +68,5 @@ public class BooksController {
         return ResultUtils.success("查询成功",hotBook);
     }
 
-
+    // TODO 根据RFID信息获得图书信息，传回图书名称 图书id和图书作者
 }
