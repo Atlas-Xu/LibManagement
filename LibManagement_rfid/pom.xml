@@ -2,17 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>LibManagement</artifactId>
+        <groupId>cn.xchub</groupId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.zsc</groupId>
-    <artifactId>smartcafeteria-equipment</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>smartcafeteria-equipment</name>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>LibManagement_rfid</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -11,6 +11,7 @@
     <modules>
         <module>LibManagement_common</module>
         <module>LibManagement_web</module>
+        <module>LibManagement_rfid</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

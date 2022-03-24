@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package UHF;
+package cn.xchub.rfid;
 
 public class Reader18 {
 
