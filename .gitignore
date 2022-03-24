@@ -13,7 +13,6 @@ build/
 .gradle/
 gradle-app.setting
 !gradle-wrapper.jar
-build/
 
 local.properties
 
@@ -33,3 +32,6 @@ local.properties
 gradle.properties
 ArcFace64.dat
 target/
+
+LibManagement_common/target
+LibManagement_web/target
