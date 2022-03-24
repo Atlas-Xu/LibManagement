@@ -98,6 +98,7 @@ public class BorrowBookServiceImpl extends ServiceImpl<BorrowBookMapper, BorrowB
         list.forEach(it -> {
             final BorrowBook borrowBook = baseMapper.selectById(it.getBookId());
             if (borrowBook == null) return;
+            booksService.addBook(it.getBorrowId());
             borrowBook.setBorrowStatus("2");// 已还
             borrowBook.setReturnStatus("1");// 正常还书
             baseMapper.updateById(borrowBook);
