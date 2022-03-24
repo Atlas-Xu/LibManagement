@@ -53,7 +53,6 @@ public class BorrowBookController {
     @PostMapping("/returnBooks")
     public ResultVo returnBooks(@RequestBody List<ReturnParam> param) {
         borrowBookService.returnBook(param);
-        // TODO 还书功能虽然运行好像没问题，但是显示的内容还是还书不成功
         return ResultUtils.success("还书成功！");
     }
 

@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface BooksMapper extends BaseMapper<Books> {
     IPage<Books> getList(Page<Books> page, @Param("param") BooksParam param); // param别名用于mapper.xml中的SQL语句别名
-    int subBook(@Param("bookId") Long bookId);
-    int addBook(@Param("bookId") Long bookId);
+
     List<BookVo> getHotBook();
 }

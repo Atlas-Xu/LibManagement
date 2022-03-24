@@ -4,10 +4,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Base64;
 
-/**
- * @author st7251
- * @date 2020/3/13 9:23
- */
 public class Base64Util {
     public static String base64Process(String base64Str) {
         if (!StringUtils.isEmpty(base64Str)) {
@@ -24,14 +20,12 @@ public class Base64Util {
     }
 
     public static byte[] base64ToBytes(String base64) {
-        if (StringUtils.isEmpty(base64)) {
+        if (!StringUtils.hasLength(base64)) {
             return null;
         }
         String base64Process = base64Process(base64);
 
-        byte[] decode = Base64.getDecoder().decode(base64Process);
-        return decode;
-
+        return Base64.getDecoder().decode(base64Process);
 
     }
 }

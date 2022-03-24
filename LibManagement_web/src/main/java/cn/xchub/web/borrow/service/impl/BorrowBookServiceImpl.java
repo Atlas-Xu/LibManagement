@@ -95,17 +95,13 @@ public class BorrowBookServiceImpl extends ServiceImpl<BorrowBookMapper, BorrowB
     @Override
     @Transactional
     public void returnBook(List<ReturnParam> list) {
-        // 加库存，变更借书状态
-        for (int i = 0; i < list.size(); i++) {
-            int res = booksService.addBook(list.get(i).getBookId());
-            if (res > 0) {
-                BorrowBook borrowBook = new BorrowBook();
-                borrowBook.setBorrowId(list.get(i).getBorrowId());
-                borrowBook.setBorrowStatus("2");// 已还
-                borrowBook.setReturnStatus("1");// 正常还书
-                this.baseMapper.updateById(borrowBook);
-            }
-        }
+        list.forEach(it -> {
+            final BorrowBook borrowBook = baseMapper.selectById(it.getBookId());
+            if (borrowBook == null) return;
+            borrowBook.setBorrowStatus("2");// 已还
+            borrowBook.setReturnStatus("1");// 正常还书
+            baseMapper.updateById(borrowBook);
+        });
     }
 
     @Override

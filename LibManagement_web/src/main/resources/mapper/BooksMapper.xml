@@ -17,15 +17,12 @@
             and b.book_auther like CONCAT('%',#{param.bookAuther},'%')
         </if>
     </select>
-    <update id="subBook">
-        update books set book_store = book_store - 1 where book_id =#{bookId} and book_store > 0
-    </update>
-    <update id="addBook">
-        update books set book_store = book_store + 1 where book_id =#{bookId}
-    </update>
     <select id="getHotBook" resultType="cn.xchub.web.books.entity.BookVo">
-        select b.book_name as name,count(bb.reader_id) as value from books as b left join borrow_book bb on b.book_id = bb.book_id
+        select b.book_name as name, count(bb.reader_id) as value
+        from books as b
+                 left join borrow_book bb on b.book_id = bb.book_id
         group by bb.book_id
-        order by value desc limit 10
+        order by value desc
+        limit 10
     </select>
 </mapper>

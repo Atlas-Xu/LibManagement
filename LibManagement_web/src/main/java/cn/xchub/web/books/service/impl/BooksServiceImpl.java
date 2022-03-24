@@ -20,18 +20,28 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
         Page<Books> page = new Page<>();
         page.setCurrent(param.getCurrentPage());
         page.setSize(param.getPageSize());
-        return this.baseMapper.getList(page,param);
+        return this.baseMapper.getList(page, param);
 
     }
 
     @Override
     public int subBook(Long bookId) {
-        return this.baseMapper.subBook(bookId);
+        final Books books = this.baseMapper.selectById(bookId);
+        if (books == null) return 0;
+
+        books.setBookStore(books.getBookStore() - 1);
+        if (books.getBookStore() <= 0) return 0;
+
+        return baseMapper.updateById(books);
     }
 
     @Override
     public int addBook(Long bookId) {
-        return this.baseMapper.addBook(bookId);
+        final Books books = this.baseMapper.selectById(bookId);
+        if (books == null) return 0;
+
+        books.setBookStore(books.getBookStore() + 1);
+        return baseMapper.updateById(books);
     }
 
     @Override
