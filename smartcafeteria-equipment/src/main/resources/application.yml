@@ -1,0 +1,19 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://121.5.110.15:8761/eureka/ #注册地址
+    fetch-registry: true
+    instance:
+      prefer-ip-address: true
+    register-with-eureka: true
+
+server:
+  port: 8765
+
+spring:
+  application:
+    name: SMARTFETETIA-EQUIPMENT #注册时的项目名
+
+feign:
+  httpclient:
+    enabled: true
