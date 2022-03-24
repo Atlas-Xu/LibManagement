@@ -34,11 +34,6 @@ jwt:
   secret: cn.xchub
   # 30分钟过期
   expiration: 1800000
-
-logging:
-  pattern:
-    console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
-
 config:
   arcface-sdk:
     sdk-lib-path: D:\\Study\\GraduationProject\\Code\\source\\WIN64
@@ -46,4 +41,3 @@ config:
     sdk-key: 9x9dScCc5agMrM9niKHKgaBsMjNxrovT3adSHrtvf42M
     detect-pool-size: 5
     compare-pool-size: 5
-

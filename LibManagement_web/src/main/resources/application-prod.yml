@@ -24,7 +24,3 @@ jwt:
   secret: cn.xchub
   # 30分钟过期
   expiration: 1800000
-
-logging:
-  pattern:
-    console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
