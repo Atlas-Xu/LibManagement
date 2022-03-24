@@ -11,12 +11,18 @@ import java.util.List;
 public interface BooksService extends IService<Books> {
     IPage<Books> getList(BooksParam param);
 
-    // 减库存（借书）
+    /**
+     * 减库存（借书）
+     */
     int subBook(Long bookId);
 
-    // 加库存（还书）
+    /**
+     * 加库存（还书）
+     */
     int addBook(Long bookId);
 
-    // 查找最热门的10本
+    /**
+     * 查找最热门的10本
+     */
     List<BookVo> getHotBook();
 }
