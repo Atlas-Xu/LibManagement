@@ -96,9 +96,9 @@ public class BorrowBookServiceImpl extends ServiceImpl<BorrowBookMapper, BorrowB
     @Transactional
     public void returnBook(List<ReturnParam> list) {
         list.forEach(it -> {
-            final BorrowBook borrowBook = baseMapper.selectById(it.getBookId());
+            final BorrowBook borrowBook = baseMapper.selectById(it.getBorrowId());
             if (borrowBook == null) return;
-            booksService.addBook(it.getBorrowId());
+            booksService.addBook(it.getBookId());
             borrowBook.setBorrowStatus("2");// 已还
             borrowBook.setReturnStatus("1");// 正常还书
             baseMapper.updateById(borrowBook);
