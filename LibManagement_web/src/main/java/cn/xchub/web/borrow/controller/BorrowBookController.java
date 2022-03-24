@@ -53,6 +53,7 @@ public class BorrowBookController {
     @PostMapping("/returnBooks")
     public ResultVo returnBooks(@RequestBody List<ReturnParam> param) {
         borrowBookService.returnBook(param);
+        // TODO 还书功能虽然运行好像没问题，但是显示的内容还是还书不成功
         return ResultUtils.success("还书成功！");
     }
 
@@ -79,6 +80,7 @@ public class BorrowBookController {
         if (userType.equals("0")){ // 读者
             lookBorrowList = borrowBookService.getReaderLookBorrowList(param);
             return ResultUtils.success("查询成功！", lookBorrowList);
+            // TODO 实际上读者查看不到自己的
         }else if (userType.equals("1")){ // 管理员
             lookBorrowList = borrowBookService.getLookBorrowList(param);
             return ResultUtils.success("查询成功！", lookBorrowList);
