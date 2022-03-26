@@ -1,0 +1,12 @@
+###
+POST http://localhost:8888/api/rfid
+Content-Type: application/json
+
+{
+  "rfids": [
+    "bf6a7b56-acd2-11ec-b909-0242ac120002",
+    "c1f83cdc-acd2-11ec-b909-0242ac120002",
+    "c5682f44-acd2-11ec-b909-0242ac120002"
+  ]
+}
+

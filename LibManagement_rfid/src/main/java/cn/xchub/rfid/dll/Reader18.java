@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package cn.xchub.rfid;
+package cn.xchub.rfid.dll;
 
 public class Reader18 {
 

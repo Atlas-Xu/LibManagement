@@ -1,4 +1,4 @@
-package cn.xchub.rfid;
+package cn.xchub.rfid.dll;
 
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ public class UhfReader {
     private final Reader18 tnt = new Reader18();
 
     private int[] rec = new int[5000];
-    private final int[] sendBuff = new int[5000];
+    private int[] sendBuff = new int[5000];
     private int result = 0x30;
     private int frmHandle = 0;
     private int fComAddr = 0;

@@ -6,6 +6,7 @@ import cn.xchub.web.books.entity.BooksParam;
 import cn.xchub.web.books.mapper.BooksMapper;
 import cn.xchub.web.books.service.BooksService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,11 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
     @Override
     public List<BookVo> getHotBook() {
         return this.baseMapper.getHotBook();
+    }
+
+    @Override
+    public Books getByBookCode(String bookCode) {
+        return baseMapper.selectOne(Wrappers.lambdaQuery(Books.class)
+                .eq(Books::getBookCode, bookCode));
     }
 }

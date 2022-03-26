@@ -25,4 +25,6 @@ public interface BooksService extends IService<Books> {
      * 查找最热门的10本
      */
     List<BookVo> getHotBook();
+
+    Books getByBookCode(String bookCode);
 }

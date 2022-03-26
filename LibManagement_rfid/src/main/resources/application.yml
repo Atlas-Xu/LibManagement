@@ -1,0 +1,5 @@
+server:
+  port: 8888
+lib-management:
+  application-url: http://localhost:8089
+  get-book-by-code-path: /api/books/rfid

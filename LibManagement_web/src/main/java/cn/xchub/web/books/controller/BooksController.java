@@ -8,6 +8,7 @@ import cn.xchub.web.books.entity.Books;
 import cn.xchub.web.books.entity.BooksParam;
 import cn.xchub.web.books.service.BooksService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -80,5 +81,19 @@ public class BooksController {
         return ResultUtils.success("查询成功", hotBook);
     }
 
-    // TODO 根据RFID信息获得图书信息，传回图书名称 图书id和图书作者
+    @Data
+    public static class RfidBookRequest {
+        private String bookCode;
+    }
+
+    /**
+     * RFID -> bookCode -> Book
+     */
+    @PostMapping("/rfid")
+    public Books queryByRfid(@RequestBody RfidBookRequest request) {
+        if (request.getBookCode() == null || request.getBookCode().isEmpty()) {
+            throw new RuntimeException("BookCode invalid");
+        }
+        return booksService.getByBookCode(request.getBookCode());
+    }
 }
