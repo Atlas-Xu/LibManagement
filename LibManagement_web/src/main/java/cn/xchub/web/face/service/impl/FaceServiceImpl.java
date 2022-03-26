@@ -16,6 +16,7 @@ import com.arcsoft.face.toolkit.ImageFactory;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -24,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.io.Closeable;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -112,10 +110,10 @@ public class FaceServiceImpl extends ServiceImpl<FaceMapper, Face> implements Fa
 
     /**
      * 检测传入的图片中的人脸
-     * */
+     */
     @Override
     public List<FaceInfo> detectFaces(ImageInfo imageInfo) {
-         FaceEngine faceEngine = null;
+        FaceEngine faceEngine = null;
         try {
             faceEngine = faceEngineGeneralPool.borrowObject();
             if (faceEngine == null) {
@@ -142,9 +140,10 @@ public class FaceServiceImpl extends ServiceImpl<FaceMapper, Face> implements Fa
 
     /**
      * 在faceLogin接口中使用。
-     * */
+     */
     @Override
-    public Long compareFace(FaceLoginParam param) {
+    @SneakyThrows
+    public Face compareFace(FaceLoginParam param) {
         // TODO 人脸比对，从数据库查询符合阈值且最高的那个，返回读者id
         ImageInfo imageInfo = ImageFactory.getRGBData(Base64Util.base64ToBytes(param.getBase64Str()));
         List<FaceInfo> faceInfoList = detectFaces(imageInfo);
@@ -152,13 +151,34 @@ public class FaceServiceImpl extends ServiceImpl<FaceMapper, Face> implements Fa
         if (targetFeature == null) {
             return null;
         }
-        // 还差调用sdk进行阈值比较，返回在数据库中能匹配到的阈值符合的对象，若无则直接返回null
-        return null;
+
+        final Map<byte[], Face> faceMap = faceFeatures();
+        final FaceEngine faceEngine = faceEngineComparePool.borrowObject();
+
+        final FaceSimilar similar = new FaceSimilar();
+        similar.setScore(0.82F);
+
+        Face face = null;
+        int value = Integer.MIN_VALUE;
+        for (Map.Entry<byte[], Face> entry : faceMap.entrySet()) {
+            int current = faceEngine.compareFaceFeature(
+                    new FaceFeature(param.getBase64Str().getBytes(StandardCharsets.UTF_8)),
+                    new FaceFeature(entry.getKey()),
+                    similar
+            );
+
+            if (current >= value) {
+                value = current;
+                face = entry.getValue();
+            }
+
+        }
+        return face;
     }
 
     /**
      * 提取人脸特征
-     * */
+     */
     @Override
     public byte[] extractFaceFeature(ImageInfo imageInfo, FaceInfo faceInfo) {
         FaceEngine faceEngine = null;

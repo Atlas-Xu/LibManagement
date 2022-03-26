@@ -18,7 +18,7 @@ public interface FaceService extends IService<Face> {
 
     List<FaceInfo> detectFaces(ImageInfo imageInfo);
 
-    Long compareFace(FaceLoginParam param);
+    Face compareFace(FaceLoginParam param);
 
     Map<byte[], Face> faceFeatures();
 }

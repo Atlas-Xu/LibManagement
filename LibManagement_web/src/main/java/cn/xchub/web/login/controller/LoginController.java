@@ -83,18 +83,18 @@ public class LoginController {
     //获取用户权限字段
     @Auth
     @GetMapping("/getInfo")
-    public ResultVo getInfo(Long userId, HttpServletRequest request){
+    public ResultVo getInfo(Long userId, HttpServletRequest request) {
         // 从请求的头部获取token
         String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)){
-            return ResultUtils.error("token过期！",600);
+        if (StringUtils.isEmpty(token)) {
+            return ResultUtils.error("token过期！", 600);
         }
         // 从token里面解析用户的类型
         Claims claims = jwtUtils.getClaimsFromToken(token);
         Object userType = claims.get("userType");
         // 定义用户信息类
         UserInfo userInfo = new UserInfo();
-        if (userType.equals("0")){ // 读者
+        if (userType.equals("0")) { // 读者
             // 根据id查询读者信息
             Reader reader = readerService.getById(userId);
             userInfo.setIntroduction(reader.getLearnNum());
@@ -103,14 +103,14 @@ public class LoginController {
             // 权限字段的查询与设置
             List<Menu> menuList = menuService.getMenuByReaderId(userId);
             List<String> collect = menuList.stream().filter(item -> item != null && item.getCode() != null).map(item -> item.getCode()).collect(Collectors.toList());
-            if (collect.size() == 0){
+            if (collect.size() == 0) {
                 return ResultUtils.error("暂无登录权限,请联系管理员");
             }
             // 转为数组
             String[] strings = collect.toArray(new String[collect.size()]);
             userInfo.setRoles(strings);
-            return ResultUtils.success("查询成功！",userInfo);
-        }else if (userType.equals("1")){ // 管理员
+            return ResultUtils.success("查询成功！", userInfo);
+        } else if (userType.equals("1")) { // 管理员
             User user = userService.getById(userId);
             userInfo.setIntroduction(user.getNickName());
             userInfo.setName(user.getNickName());
@@ -119,14 +119,14 @@ public class LoginController {
             // 权限字段的查询与设置
             List<Menu> menuList = menuService.getMenuByUserId(userId);
             List<String> collect = menuList.stream().filter(item -> item != null && item.getCode() != null).map(item -> item.getCode()).collect(Collectors.toList());
-            if (collect.size() == 0){
+            if (collect.size() == 0) {
                 return ResultUtils.error("暂无登录权限,请联系管理员");
             }
             // 转为数组
             String[] strings = collect.toArray(new String[collect.size()]);
             userInfo.setRoles(strings);
-            return ResultUtils.success("查询成功！",userInfo);
-        }else {
+            return ResultUtils.success("查询成功！", userInfo);
+        } else {
             return ResultUtils.error("用户类型不存在", userInfo);
         }
     }
@@ -134,59 +134,58 @@ public class LoginController {
     // 查询菜单
     @Auth
     @GetMapping("/getMenuList")
-    public ResultVo getMenuList(HttpServletRequest request){
+    public ResultVo getMenuList(HttpServletRequest request) {
         // 获取token
         String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)){
-            return ResultUtils.error("token过期！",600);
+        if (StringUtils.isEmpty(token)) {
+            return ResultUtils.error("token过期！", 600);
         }
         // 获取用户名或类型
         String username = jwtUtils.getUsernameFromToken(token);
         // 获取用户类型
         Claims claims = jwtUtils.getClaimsFromToken(token);
         Object userType = claims.get("userType");
-        if (userType.equals("0")){ // 读者
+        if (userType.equals("0")) { // 读者
             // 获取读者信息
             Reader reader = readerService.loadByUsername(username);
             // 查询菜单信息
             List<Menu> menuList = menuService.getMenuByReaderId(reader.getReaderId());
             List<Menu> collect = menuList.stream().filter(item -> item != null && !item.getType().equals("2")).collect(Collectors.toList());
-            if (collect.size() == 0){
+            if (collect.size() == 0) {
                 return ResultUtils.error("暂无登录权限，请联系管理员！");
             }
             // 组装路由格式的数据
             List<RouterVo> routerVos = MakeTree.makeRouter(collect, 0L);
-            return ResultUtils.success("查询成功",routerVos);
-        }else if (userType.equals("1")){ // 管理员
+            return ResultUtils.success("查询成功", routerVos);
+        } else if (userType.equals("1")) { // 管理员
             // 获取用户信息
             User user = userService.loadByUsername(username);
             // 查询菜单信息
             List<Menu> menuList = menuService.getMenuByUserId(user.getUserId());
             List<Menu> collect = menuList.stream().filter(item -> item != null && !item.getType().equals("2")).collect(Collectors.toList());
-            if (collect.size() == 0){
+            if (collect.size() == 0) {
                 return ResultUtils.error("暂无登录权限，请联系管理员！");
             }
             // 组装路由格式的数据
             List<RouterVo> routerVos = MakeTree.makeRouter(collect, 0L);
-            return ResultUtils.success("查询成功",routerVos);
-        }else {
+            return ResultUtils.success("查询成功", routerVos);
+        } else {
             return ResultUtils.error("用户类型不存在");
         }
     }
 
     // 人脸识别登录
     @PostMapping("/faceLogin")
-    public ResultVo faceLogin(@RequestBody FaceLoginParam param){
-        if (StringUtils.isEmpty(param.getBase64Str()))
-        {
+    public ResultVo faceLogin(@RequestBody FaceLoginParam param) {
+        if (StringUtils.isEmpty(param.getBase64Str())) {
             return ResultUtils.error("未检测到图像");
         }
-        Long readerId = faceService.compareFace(param);
+        Long readerId = faceService.compareFace(param).getReaderId();
         if (readerId == null) {
             return ResultUtils.error("用户不存在或人脸信息错误");
         }
         QueryWrapper<Reader> query = new QueryWrapper<>();
-        query.lambda().eq(Reader::getReaderId,readerId);
+        query.lambda().eq(Reader::getReaderId, readerId);
         Reader one = readerService.getOne(query);
         LoginResult loginResult = new LoginResult();
         loginResult.setToken(jwtUtils.generateToken(one.getUsername(), "0"));
