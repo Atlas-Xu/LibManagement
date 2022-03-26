@@ -76,6 +76,7 @@ public class BorrowBookController {
     @Auth
     @GetMapping("/getLookBorrowList")
     public ResultVo<Object> getLookBorrowList(LookParam param, HttpServletRequest request) {
+        param.setCurrentPage(param.getCurrentPage() - 1);
         // 获取token
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
@@ -83,16 +84,18 @@ public class BorrowBookController {
         }
         Claims claims = jwtUtils.getClaimsFromToken(token);
         String userType = (String) claims.get("userType");
-        IPage<LookBorrow> lookBorrowList = null;
         if (userType.equals("0")) { // 读者
-            lookBorrowList = borrowBookService.getReaderLookBorrowList(param);
-            return ResultUtils.success("查询成功！", lookBorrowList);
-            // TODO 实际上读者查看不到自己的
+            return ResultUtils.success(
+                    "查询成功！",
+                    borrowBookService.getReaderLookBorrowList(param)
+            );
         } else if (userType.equals("1")) { // 管理员
-            lookBorrowList = borrowBookService.getLookBorrowList(param);
-            return ResultUtils.success("查询成功！", lookBorrowList);
+            return ResultUtils.success(
+                    "查询成功！",
+                    borrowBookService.getLookBorrowList(param)
+            );
         } else {
-            return ResultUtils.success("查询成功！", lookBorrowList);
+            return ResultUtils.success("查询成功！", null);
         }
     }
 
