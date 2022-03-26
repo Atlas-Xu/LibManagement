@@ -76,7 +76,6 @@ public class BorrowBookController {
     @Auth
     @GetMapping("/getLookBorrowList")
     public ResultVo<Object> getLookBorrowList(LookParam param, HttpServletRequest request) {
-        param.setCurrentPage(param.getCurrentPage() - 1);
         // 获取token
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
