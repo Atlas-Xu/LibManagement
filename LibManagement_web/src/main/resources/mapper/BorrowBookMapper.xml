@@ -51,7 +51,7 @@
         from borrow_book as b left join books as b2 on b.book_id = b2.book_id left join reader as r on b.reader_id = r.reader_id)t
         where 1 = 1
         <if test="param.userId != null and param.userId != ''">
-            and t.username =#{param.userId}
+            and t.reader_id =#{param.userId}
         </if>
         <if test="param.username != null and param.username != ''">
             and t.username =#{param.username}
