@@ -6,6 +6,7 @@ import cn.xchub.rfid.domain.GetBookRequest;
 import cn.xchub.rfid.domain.GetBookResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -63,12 +65,16 @@ public class LibManagementService {
         return result.stream().distinct().collect(toList());
     }
 
-    public List<String> rfidToResultToBookCode(List<String> rfidResult) {
-        return rfidResult.stream()
-                         .filter(Objects::nonNull)
-                         .filter(it -> !it.isEmpty())
-                         .filter(it -> it.length() >= 13)
-                         .map(it -> it.substring(13))
-                         .collect(toList());
+    public List<String> rfidToResultToBookCode(@Nullable List<String> rfidResult) {
+        if (rfidResult == null) return emptyList();
+
+        final List<String> bookCodes = rfidResult.stream()
+                                           .filter(Objects::nonNull)
+                                           .filter(it -> !it.isEmpty())
+                                           .filter(it -> it.length() >= 13)
+                                           .map(it -> it.substring(13))
+                                           .collect(toList());
+        log.info("Book codes: {}", bookCodes);
+        return bookCodes;
     }
 }
