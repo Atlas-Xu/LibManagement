@@ -1,11 +1,10 @@
 package cn.xchub.rfid.controller;
 
-import cn.xchub.rfid.domain.RfidRequest;
+import cn.xchub.rfid.domain.GetBookResponse;
 import cn.xchub.rfid.service.LibManagementService;
 import cn.xchub.utils.ResultUtils;
 import cn.xchub.utils.ResultVo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,27 +22,14 @@ public class RfidController {
         this.libManagementService = libManagementService;
     }
 
-    @PostMapping
-    public ResultVo<Object> rfidQuery(@RequestBody RfidRequest request) {
-        final List<String> rfids = request.getRfids()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(it -> !it.isEmpty())
-                .collect(toList());
+    @GetMapping
+    public ResultVo<Object> getBook() {
+        final List<String> rfidResult = libManagementService.queryByRfid();
+        final List<String> bookCodes = libManagementService.rfidToResultToBookCode(rfidResult);
+        final List<GetBookResponse> books = bookCodes.stream().map(libManagementService::getBook)
+                                                     .filter(Objects::nonNull)
+                                                     .collect(toList());
 
-        final List<String> bookCodes = rfids.stream()
-                .map(libManagementService::rfidToCode)
-                .filter(Objects::nonNull)
-                .filter(it -> !it.isEmpty())
-                .collect(toList());
-
-        return ResultUtils.success(
-                "查询成功",
-                bookCodes.stream()
-                        .map(libManagementService::getBook)
-                        .filter(Objects::nonNull)
-                        .collect(toList())
-        );
-
+        return ResultUtils.success("查询成功", books);
     }
 }
