@@ -72,7 +72,7 @@ public class LibManagementService {
                                            .filter(Objects::nonNull)
                                            .filter(it -> !it.isEmpty())
                                            .filter(it -> it.length() >= 13)
-                                           .map(it -> it.substring(13))
+                                           .map(it -> it.substring(0, 13))
                                            .collect(toList());
         log.info("Book codes: {}", bookCodes);
         return bookCodes;
