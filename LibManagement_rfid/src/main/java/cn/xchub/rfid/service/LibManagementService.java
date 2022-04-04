@@ -56,8 +56,8 @@ public class LibManagementService {
         int fCmdRet = uhf.AutoOpenCom(ComAddr, baudRate);
         if (fCmdRet == 0) {
             log.info("打开串口成功");
-            queryByRfid();
-            log.info(queryByRfid().get(0));
+            List<String> rfidResult = queryByRfid();
+            log.info("Rfid result: {}", rfidResult);
         } else {
             log.info("打开串口失败");
         }
