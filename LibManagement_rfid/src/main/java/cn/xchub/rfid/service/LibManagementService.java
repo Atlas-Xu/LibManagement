@@ -6,11 +6,9 @@ import cn.xchub.rfid.domain.GetBookRequest;
 import cn.xchub.rfid.domain.GetBookResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,31 +41,25 @@ public class LibManagementService {
         return fetch(new GetBookRequest(bookCode));
     }
 
-    final UHFReader uhf = new UHFReader();
+    private static final UHFReader UHF = new UHFReader();
 
-    /**
-     * 开关读卡器端口用的
-     */
-    @PostConstruct
-    @Async
-    public void OpenCom() {
-        byte ComAddr = (byte) 255;
+    static {
+        openCom();
+    }
+
+    public static void openCom() {
+        byte comAddr = (byte) 255;
         byte baudRate = (byte) 5;
-        int fCmdRet = uhf.AutoOpenCom(ComAddr, baudRate);
-        if (fCmdRet == 0) {
-            log.info("打开串口成功");
-            List<String> rfidResult = queryByRfid();
-            log.info("Rfid result: {}", rfidResult);
-        } else {
-            log.info("打开串口失败");
-        }
+        int fCmdRet = UHF.AutoOpenCom(comAddr, baudRate);
+        log.info("打开串口 {}", fCmdRet == 0 ? "成功" : "失败");
     }
 
     public List<String> queryByRfid() {
-        String[] epc = uhf.Inventory();
+        String[] epc = UHF.Inventory();
         if (epc == null) return null;
 
         List<String> result = new ArrayList<>(Arrays.asList(epc));
+        log.info("Rfid result: {}", result);
         return result.stream().distinct().collect(toList());
     }
 
