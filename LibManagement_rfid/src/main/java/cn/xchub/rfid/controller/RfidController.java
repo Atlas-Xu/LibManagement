@@ -15,7 +15,7 @@ import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/api/rfid")
+@RequestMapping("/uhfapi/rfid")
 public class RfidController {
     private final LibManagementService libManagementService;
 

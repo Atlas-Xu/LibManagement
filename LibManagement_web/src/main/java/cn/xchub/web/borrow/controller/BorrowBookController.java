@@ -172,13 +172,18 @@ public class BorrowBookController {
         }
     }
 
-
+    /**
+     * 借阅机借书
+     */
     @PostMapping("/borrowFromMachine")
     public ResultVo<Object> borrowFromMachine(@RequestBody MachineBorrowParam param) {
         borrowBookService.borrowFromMachine(param);
         return ResultUtils.success("借阅成功");
     }
 
+    /**
+     * 借阅机还书
+     */
     @PostMapping("/returnFromMachine")
     public ResultVo<Object> returnFromMachine(@RequestBody MachineReturnParam param) {
         borrowBookService.returnFromMachine(param);

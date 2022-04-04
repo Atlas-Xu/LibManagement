@@ -144,7 +144,7 @@ public class FaceServiceImpl extends ServiceImpl<FaceMapper, Face> implements Fa
     @Override
     @SneakyThrows
     public Face compareFace(FaceLoginParam param) {
-        // TODO 人脸比对，从数据库查询符合阈值且最高的那个，返回读者id
+        // 人脸比对，从数据库查询符合阈值且最高的那个，返回读者id
         ImageInfo imageInfo = ImageFactory.getRGBData(Base64Util.base64ToBytes(param.getBase64Str()));
         List<FaceInfo> faceInfoList = detectFaces(imageInfo);
         byte[] targetFeature = extractFaceFeature(imageInfo, faceInfoList.get(0));
