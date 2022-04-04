@@ -57,6 +57,10 @@ public class LibManagementService {
             "9746512345"
     );
 
+    /**
+     * 开关读卡器端口用的
+     * */
+
     @PostConstruct
     @Async
     public void OpenCom() {
@@ -72,6 +76,10 @@ public class LibManagementService {
         }
     }
 
+    /**
+     * 读RFID数据块的函数。读出的是EPC
+     */
+    // TODO 该函数每次请求接口时调用
     @Async
     @Scheduled(cron = "0/1 * * * * *")
     public List<String> query(){
@@ -92,7 +100,7 @@ public class LibManagementService {
 
     /**
      * TODO RFID 转 BookCode
-     * EPC数据去掉最后3位即位ISBN
+     * EPC数据去掉最后3位即为ISBN
      */
     public String rfidToCode(String rfid) {
         final int index = Math.toIntExact(Instant.now().toEpochMilli() % hackBookCode.size());
