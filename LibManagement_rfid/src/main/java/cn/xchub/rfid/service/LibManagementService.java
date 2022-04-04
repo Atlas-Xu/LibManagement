@@ -58,6 +58,7 @@ public class LibManagementService {
     );
 
     /**
+     *
      * 开关读卡器端口用的
      * */
 
@@ -78,6 +79,8 @@ public class LibManagementService {
 
     /**
      * 读RFID数据块的函数。读出的是EPC
+     * 多张放一起就报错error create beans，是不是加了硬件的参数，所以注入有问题(此处随便写在service里面测试的，如果需要改就把这个和上面那个硬件的函数改在别的地方就可)
+     *
      */
     // TODO 该函数每次请求接口时调用
     @Async
