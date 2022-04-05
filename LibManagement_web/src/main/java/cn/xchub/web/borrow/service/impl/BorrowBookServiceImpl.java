@@ -59,7 +59,7 @@ public class BorrowBookServiceImpl extends ServiceImpl<BorrowBookMapper, BorrowB
                 // 插入明细
                 if (res > 0) {
                     BorrowBook borrowBook = new BorrowBook();
-                    borrowBook.setBorrowId(bookId);
+                    borrowBook.setBookId(bookId);
                     borrowBook.setReaderId(param.getReaderId());
                     borrowBook.setReturnTime(param.getReturnTime());
                     if (userType.equals("0")) { // 读者
@@ -158,7 +158,7 @@ public class BorrowBookServiceImpl extends ServiceImpl<BorrowBookMapper, BorrowB
         for (int i = 0; i < bookIds.size(); i++) {
             Long bookId = bookIds.get(i);
             BorrowBook borrowBook = new BorrowBook();
-            borrowBook.setBorrowId(bookId);
+            borrowBook.setBookId(bookId);
             borrowBook.setReaderId(param.getReaderId());
             borrowBook.setReturnTime(new Date());
             borrowBook.setApplyStatus("1");
