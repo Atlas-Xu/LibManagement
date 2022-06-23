@@ -16,6 +16,12 @@ MariaDB
 Lombok
 jdk11 Corretto
 
+先运行数据库，权限和前端路由信息在数据库中
+
+---
+
+感谢皮卡丘的帮助
+
 ---
 ## Code
 
